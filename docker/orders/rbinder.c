@@ -341,6 +341,7 @@ int main(int argc, char **argv) {
       syscall_number = peekuser(cid, REG_SC_NUMBER);
       syscall_return = peekuser(cid, REG_SC_RETCODE);
 
+      // CHECK KERNEL VERSION COMPATIBILITY (SEE COMMIT MSG)
       if (status >> 8 == (SIGTRAP | (PTRACE_EVENT_SECCOMP << 8))) {
 
       //// Skip if
@@ -408,7 +409,7 @@ int main(int argc, char **argv) {
       } // SYS_clone
 
       //} // PTRACE_EVENT_SECCOMP
-      } else {
+      } else { // CHECK KERNEL VERSION COMPATIBILITY (SEE COMMIT MSG)
         if(SCREAD(syscall_number)) {
           peek_syscall_thrargs(cid, params);
 
@@ -468,7 +469,7 @@ int main(int argc, char **argv) {
             continue;
           }
         } // SYS_clone
-      }
+      } // CHECK KERNEL VERSION COMPATIBILITY (SEE COMMIT MSG)
 
       if(ptrace(PTRACE_CONT, cid, NULL, WSTOPSIG(status)) < 0) {
         perror("ptrace(PTRACE_CONT)");
